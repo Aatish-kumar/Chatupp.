@@ -7,6 +7,8 @@ dotenv.config();
 connDB();
 
 const app = express();
+// for accepting Json Data
+app.use(express.json());
 
 app.get('/', (req,res) => {
     res.send('karma karte chalo phal ki chinta mat karo BAS');

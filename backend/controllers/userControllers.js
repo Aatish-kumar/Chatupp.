@@ -1,7 +1,7 @@
-const expressAsyncHandler = require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
-
-const registerUser = expressAsyncHandler(async (req,res) => {
+const generateToken = require("../config/generateToken");
+const registerUser = asyncHandler(async (req,res) => {
     const { name,email,password,photo} = req.body;
 
     if (!name || !email || !password) {
@@ -29,6 +29,7 @@ const registerUser = expressAsyncHandler(async (req,res) => {
             name: user.name,
             email: user.email,
             photo: user.photo,
+            token: generateToken(user._id),
         })
     } else {
         res.status(404);
@@ -37,4 +38,24 @@ const registerUser = expressAsyncHandler(async (req,res) => {
 });
 
 
-module.exports = { registerUser };
+const authUser = asyncHandler(async (req, res)=>{
+    const{ email,password} = req.body;
+    const user = await User.findOne({ email })
+
+    if(user && (await User.matchPassword(password))) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            photo: user.photo,
+            token: generateToken(user._id),
+
+        })
+    } else {
+        res.status(401);
+        throw new Error("Wrong Email or Password");
+    }
+})
+
+
+module.exports = { registerUser, authUser };
