@@ -8,6 +8,10 @@
     justify-content: center;
 }
 
+.img-container h2{
+    font-size: 2rem;
+}
+
 .img-container img {
     height: auto;
     max-width: 100%;

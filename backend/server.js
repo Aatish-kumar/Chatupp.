@@ -3,6 +3,8 @@ const express = require("express");
 const dotenv = require('dotenv');
 const connDB = require("./config/datb");
 const userRoutes = require('./routes/userRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware')
 dotenv.config();
 connDB();
 
@@ -14,7 +16,12 @@ app.get('/', (req,res) => {
     res.send('karma karte chalo phal ki chinta mat karo BAS');
 })
 
-app.use('/api/user',userRoutes)
+app.use('/api/user',userRoutes);
+app.use('/api/chat', chatRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
+
 
 // app.get('/api/chat', (req, res) => {
 //     res.send(chats);
