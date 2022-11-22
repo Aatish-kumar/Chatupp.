@@ -2,7 +2,19 @@ import '../Homepage.css';
 import Login from "../components/Authentication/Login";
 import Signup from '../components/Authentication/Signup';
 import { Tab, TabList, TabPanels, Tabs, TabPanel } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 const Homepage = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (user) navigate("/chats");
+  }, [navigate]);
+
+
   return (
     <>
       <div className='img-container'>

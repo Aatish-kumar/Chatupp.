@@ -1,8 +1,8 @@
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { useToast } from '@chakra-ui/react';
-// import { useHistory } from 'react-router';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
 
   const [name, setName] = useState();
@@ -13,7 +13,7 @@ const Signup = () => {
   const [show, setShow] = useState(false);
   const [uploading, setUploading] = useState(false);
   const toast = useToast();
-  // const history = useHistory();
+  const navigate = useNavigate();
   const handleClick = () => setShow(!show);
 
   const postDetails = (photos) => {
@@ -112,7 +112,7 @@ const Signup = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setUploading(false);
-      // history.push("/chats");
+      navigate("/chats");
     } catch (error) {
       toast({
         title: "Error Occured!",
